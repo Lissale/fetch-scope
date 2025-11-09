@@ -109,8 +109,8 @@ function generate_hosts_to_test() {
 
     echo "[+] Hosts à tester enregistrés dans : $output_file"
     echo "[+] Total à tester : $(wc -l < "$output_file")"
-	ntfy pub $subject "Hosts à tester pour $platform : $(wc -l < "$output_file")"
-	echo "[+] Notification envoyée via ntfy"
+	#ntfy pub $subject "Hosts à tester pour $platform : $(wc -l < "$output_file")"
+	#echo "[+] Notification envoyée via ntfy"
 }
 
 # Exécution
@@ -121,5 +121,5 @@ process_wildcard_scope "ywh"
 list_already_tested_hosts
 generate_hosts_to_test "h1"
 generate_hosts_to_test "ywh"
-ntfy pub $subject "Récupération des scopes terminée"
+# ntfy pub $subject "Récupération des scopes terminée"
 
