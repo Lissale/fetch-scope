@@ -49,14 +49,14 @@ function process_wildcard_scope() {
 
     sed 's/^\*\.\(.*\)/\1/' "$input_file" | sort -u | while read -r domain; do
         echo "[*] Recherche des sous-domaines de $domain"
-        ./assetfinder --subs-only "$domain" >> "$output_file"
+        assetfinder --subs-only "$domain" >> "$output_file"
     done
 
     sort -u "$output_file" -o "$output_file"
     echo "[+] Sous-domaines collectés : $(wc -l < "$output_file")"
 
     echo "[*] Scan HTTP avec httpx (exclusion des 404)..."
-    ./httpx -silent -status-code < "$output_file" | grep -v " 404" | cut -d' ' -f1 > "$alive_output_file"
+    httpx -silent -status-code < "$output_file" | grep -v " 404" | cut -d' ' -f1 > "$alive_output_file"
 
     echo "[+] Sous-domaines vivants enregistrés dans : $alive_output_file"
     echo "[+] Total vivants : $(wc -l < "$alive_output_file")"
@@ -109,8 +109,6 @@ function generate_hosts_to_test() {
 
     echo "[+] Hosts à tester enregistrés dans : $output_file"
     echo "[+] Total à tester : $(wc -l < "$output_file")"
-	#ntfy pub $subject "Hosts à tester pour $platform : $(wc -l < "$output_file")"
-	#echo "[+] Notification envoyée via ntfy"
 }
 
 # Exécution
@@ -121,5 +119,4 @@ process_wildcard_scope "ywh"
 list_already_tested_hosts
 generate_hosts_to_test "h1"
 generate_hosts_to_test "ywh"
-# ntfy pub $subject "Récupération des scopes terminée"
 
